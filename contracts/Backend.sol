@@ -286,6 +286,9 @@ contract Backend {
         uint[][] memory p = doctors[_id].inactive;
         
         for (uint i = 0; i < p.length; i++) {
+            if (p[i][1] == 0 && p[i][0] <= _block) {
+                return false;
+            }
             if (p[i][0] <= _block && _block <= p[i][1]) {
                 return false;
             }
