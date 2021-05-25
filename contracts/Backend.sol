@@ -157,7 +157,7 @@ contract Backend {
             
             if (end == 0) {end = MAX_INT;}
             
-            if (_begin == end + 1) {
+            if (end != MAX_INT && _begin == end + 1) {
                 doctors[_id].inactive[i][1] = _end == MAX_INT ? 0 : _endCopy;
                 return;
             }
@@ -226,7 +226,8 @@ contract Backend {
             if ((begin == end) && (begin == _begin || begin == _end)) {
                 doctors[_id].inactive[i] = doctors[_id].inactive[length - 1];
                 doctors[_id].inactive.pop();
-                length--; i--;
+                length--;
+                if (i > 0) { i--;}
                 continue;
             }
             
@@ -234,7 +235,8 @@ contract Backend {
                 if (_begin <= begin) {
                     doctors[_id].inactive[i] = doctors[_id].inactive[length - 1];
                     doctors[_id].inactive.pop();
-                    length--; i--;
+                    length--; 
+                    if (i > 0) { i--;}
                     continue;
                 }
                 doctors[_id].inactive[i][1] = _begin - 1;
@@ -245,7 +247,8 @@ contract Backend {
                 if (_end >= end) {
                     doctors[_id].inactive[i] = doctors[_id].inactive[length - 1];
                     doctors[_id].inactive.pop();
-                    length--; i--;
+                    length--;
+                    if (i > 0) { i--;}
                     continue;
                 }
                 doctors[_id].inactive[i][1] = _end - 1;
@@ -257,11 +260,19 @@ contract Backend {
                 if (_begin <= begin && _end >= end) {
                     doctors[_id].inactive[i] = doctors[_id].inactive[length - 1];
                     doctors[_id].inactive.pop();
-                    length--; i--;
+                    length--;
+                    if (i > 0) { i--;}
                     continue;
                 }
                 
                 if (_begin == begin) {
+                    if (_end == MAX_INT) {
+                        doctors[_id].inactive[i] = doctors[_id].inactive[length - 1];
+                        doctors[_id].inactive.pop();
+                        length--;
+                        if (i > 0) { i--;}
+                        continue;     
+                    }
                     doctors[_id].inactive[i][0] = _end + 1;
                     continue;
                 }
